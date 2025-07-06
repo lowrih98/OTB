@@ -9,21 +9,36 @@
 //making a note for future reference that all provided flights depart from either MAN, LTN or LGW
 //and there are no flights connecting these, so i'm not going to worry about transfers
 //kiss principle :)
+using System.Diagnostics;
+
 namespace OTBAssessment
 {
     class Program
     {
         static void Main(string[] args)
         {
-            Console.WriteLine("Hello, On The Beach!");
-            var hotelsJsonExists = File.Exists(Utilities.JsonFileImports.HotelsJson);
-            var hotelsJsonIsJson = Path.GetExtension(Utilities.JsonFileImports.HotelsJson) == ".json";
+            var hotelsJsonLocation = Utilities.JsonFileImports.HotelsJson;
+            var flightsJsonLocation = Utilities.JsonFileImports.FlightsJson;
 
-            var flightsJsonExists = File.Exists(Utilities.JsonFileImports.FlightsJson);
-            var flightsJsonIsJson = Path.GetExtension(Utilities.JsonFileImports.FlightsJson) == ".json";
+            Debug.WriteLine("Hello, On The Beach!");
+            var hotelsJsonExists = File.Exists(hotelsJsonLocation);
+            var hotelsJsonIsJson = Path.GetExtension(hotelsJsonLocation) == ".json";
+
+            var flightsJsonExists = File.Exists(flightsJsonLocation);
+            var flightsJsonIsJson = Path.GetExtension(flightsJsonLocation) == ".json";
 
             if (!(hotelsJsonExists && hotelsJsonIsJson)) throw new Exception("Issue with finding hotels json file. Please investigate!");
             if (!(flightsJsonExists && flightsJsonIsJson)) throw new Exception("Issue with finding flights json file. Please investigate!");
+
+            var hotels = JsonImporter.JsonImporter.ImportHotels(hotelsJsonLocation);
+            var flights = JsonImporter.JsonImporter.ImportFlights(flightsJsonLocation);
+            Utilities.AirportsData.GetAllDepartureAirports(flights);
+
+            Debug.WriteLine($"Loaded data for {hotels.Count} hotels and {flights.Count} flights from {Utilities.AirportsData.AllDepatureAirports.Count} airports.");
+
+            var flightHotelPairs = MatchingService.FlightHotelMatchingService.MatchFlightsAndHotels(flights, hotels);
+
+            Debug.WriteLine($"Generated {flightHotelPairs.Count} pairs of compatible flights and hotels.");
         }
     }
 }
