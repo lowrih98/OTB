@@ -1,14 +1,15 @@
 ﻿using Xunit;
+using OTBAssessment;
 
-namespace OTBAssessment.JsonImporter.Tests
+namespace OTBAssessment.Tests
 {
     public class JsonImporterTests
     {
         [Fact]
         public void HotelsJsonExists()
         {
-            var hotelsJsonExists = File.Exists(Utilities.JsonFileImports.HotelsJson);
-            var hotelsJsonExtension = Path.GetExtension(Utilities.JsonFileImports.HotelsJson);
+            var hotelsJsonExists = File.Exists(JsonFileImports.HotelsJson);
+            var hotelsJsonExtension = Path.GetExtension(JsonFileImports.HotelsJson);
 
             Assert.True(hotelsJsonExists);
             Assert.Equal(".json", hotelsJsonExtension);
@@ -17,8 +18,8 @@ namespace OTBAssessment.JsonImporter.Tests
         [Fact]
         public void FlightsJsonExists()
         {
-            var flightsJsonExists = File.Exists(Utilities.JsonFileImports.FlightsJson);
-            var flightsJsonExtension = Path.GetExtension(Utilities.JsonFileImports.FlightsJson);
+            var flightsJsonExists = File.Exists(JsonFileImports.FlightsJson);
+            var flightsJsonExtension = Path.GetExtension(JsonFileImports.FlightsJson);
 
             Assert.True(flightsJsonExists);
             Assert.Equal(".json", flightsJsonExtension);
@@ -27,7 +28,7 @@ namespace OTBAssessment.JsonImporter.Tests
         [Fact]
         public void HotelsJsonLoadsCorrectly()
         {
-            var hotels = JsonImporter.ImportHotels(Utilities.JsonFileImports.HotelsJson);
+            var hotels = JsonImporter.ImportHotels(JsonFileImports.HotelsJson);
 
             //correct number of results
             Assert.Equal(13, hotels.Count());
@@ -55,7 +56,7 @@ namespace OTBAssessment.JsonImporter.Tests
         [Fact]
         public void FlightsJsonLoadsCorrectly()
         {
-            var flights = JsonImporter.ImportFlights(Utilities.JsonFileImports.FlightsJson);
+            var flights = JsonImporter.ImportFlights(JsonFileImports.FlightsJson);
 
             //correct number of results
             Assert.Equal(12, flights.Count());

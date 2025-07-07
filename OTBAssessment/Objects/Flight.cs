@@ -1,6 +1,6 @@
 ﻿using Newtonsoft.Json;
 
-namespace OTBAssessment.Objects
+namespace OTBAssessment
 {
     class Flight
     {

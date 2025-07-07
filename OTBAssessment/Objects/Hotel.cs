@@ -1,6 +1,6 @@
 ﻿using Newtonsoft.Json;
 
-namespace OTBAssessment.Objects
+namespace OTBAssessment
 {
     class Hotel
     {
@@ -10,6 +10,8 @@ namespace OTBAssessment.Objects
         private int pricePerNight { get; set; }
         private List<string> airports { get; set; }
         private int nights { get; set; }
+
+        private int totalPrice { get; set; }
 
         [JsonProperty("id")]
         public int Id { get { return id; }
@@ -24,10 +26,26 @@ namespace OTBAssessment.Objects
         [JsonProperty("arrival_date")]
         public string ArrivalDate { get { return arrivalDate; } set { arrivalDate = value; } }
         [JsonProperty("price_per_night")]
-        public int PricePerNight { get { return pricePerNight; } set { pricePerNight = value; } }
+        public int PricePerNight { get { return pricePerNight; } 
+            set { 
+                pricePerNight = value;
+                UpdateTotalPrice();
+            } 
+        }
         [JsonProperty("local_airports")]
         public List<string> Airports { get { return airports; } set { airports = value;  } }
         [JsonProperty("nights")]
-        public int Nights { get { return nights; } set { nights = value; } }
+        public int Nights { get { return nights; } 
+            set { 
+                nights = value;
+                UpdateTotalPrice();
+            } 
+        }
+
+        public int TotalPrice { get { return totalPrice; } }
+        public void UpdateTotalPrice()
+        {
+            totalPrice = pricePerNight * nights;
+        }
     }
 }

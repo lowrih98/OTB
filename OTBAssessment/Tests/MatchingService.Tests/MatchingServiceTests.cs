@@ -1,12 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using OTBAssessment.Objects;
-using Xunit;
+﻿using Xunit;
 
-namespace OTBAssessment.MatchingService.Tests
+namespace OTBAssessment.Tests
 {
     public class MatchingServiceTests
     {
@@ -34,7 +28,7 @@ namespace OTBAssessment.MatchingService.Tests
 
             var testPair = FlightHotelMatchingService.MatchFlightsAndHotels([flight], [hotel]);
             Assert.NotNull(testPair);
-            Assert.Equal(50, testPair.First().Price);
+            Assert.Equal(50, testPair.First().TotalPrice);
         }
 
         [Fact]

@@ -1,20 +1,18 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using OTBAssessment.Objects;
-
-namespace OTBAssessment.Utilities
+﻿namespace OTBAssessment
 {
     class AirportsData
     {
         public static List<string> LondonAirports = ["LTN", "LGW"];
-        public static List<string> AllDepatureAirports;
+        public static List<string> AllAirports;
 
-        public static void GetAllDepartureAirports(List<Flight> flights)
+        public static string LondonAirportsSearch = "Any London Airport";
+        public static string AllAirportsSearch = "Any Airport";
+
+        public static void GetAllAirports(List<Flight> flights)
         {
-            AllDepatureAirports = flights.Select(f => f.DepartingFrom).Distinct().ToList();
+            AllAirports = flights.Select(f => f.DepartingFrom).Distinct().
+                                    Concat(flights.Select(f => f.ArrivingIn).Distinct())
+                                    .ToList();
         }
     }
 }

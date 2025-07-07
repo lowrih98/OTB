@@ -17,8 +17,8 @@ namespace OTBAssessment
     {
         static void Main(string[] args)
         {
-            var hotelsJsonLocation = Utilities.JsonFileImports.HotelsJson;
-            var flightsJsonLocation = Utilities.JsonFileImports.FlightsJson;
+            var hotelsJsonLocation = JsonFileImports.HotelsJson;
+            var flightsJsonLocation = JsonFileImports.FlightsJson;
 
             Debug.WriteLine("Hello, On The Beach!");
             var hotelsJsonExists = File.Exists(hotelsJsonLocation);
@@ -30,15 +30,36 @@ namespace OTBAssessment
             if (!(hotelsJsonExists && hotelsJsonIsJson)) throw new Exception("Issue with finding hotels json file. Please investigate!");
             if (!(flightsJsonExists && flightsJsonIsJson)) throw new Exception("Issue with finding flights json file. Please investigate!");
 
-            var hotels = JsonImporter.JsonImporter.ImportHotels(hotelsJsonLocation);
-            var flights = JsonImporter.JsonImporter.ImportFlights(flightsJsonLocation);
-            Utilities.AirportsData.GetAllDepartureAirports(flights);
+            var hotels = JsonImporter.ImportHotels(hotelsJsonLocation);
+            var flights = JsonImporter.ImportFlights(flightsJsonLocation);
+            AirportsData.GetAllAirports(flights);
 
-            Debug.WriteLine($"Loaded data for {hotels.Count} hotels and {flights.Count} flights from {Utilities.AirportsData.AllDepatureAirports.Count} airports.");
+            Debug.WriteLine($"Loaded data for {hotels.Count} hotels and {flights.Count} flights from {AirportsData.AllAirports.Count} airports.");
 
-            var flightHotelPairs = MatchingService.FlightHotelMatchingService.MatchFlightsAndHotels(flights, hotels);
+            var flightHotelPairs = FlightHotelMatchingService.MatchFlightsAndHotels(flights, hotels);
 
             Debug.WriteLine($"Generated {flightHotelPairs.Count} pairs of compatible flights and hotels.");
+
+            var exampleSearch = new SearchCriteria("MAN", "AGP", "2023-07-01", 7);
+
+            var exampleSearchResults = SearchService.FindAllResults(exampleSearch, flightHotelPairs);
+
+            Debug.WriteLine($"{exampleSearchResults.Count} result(s) found for given search criteria.");
+            
+            var firstResult = exampleSearchResults.FirstOrDefault();
+
+            if (firstResult != null)
+            {
+                Debug.WriteLine($"Printing data for first result.");
+                Debug.WriteLine($"Price: {firstResult.TotalPrice}");
+                Debug.WriteLine($"Flight Id: {firstResult.Flight.Id}");
+                Debug.WriteLine($"Departing From: {firstResult.Flight.DepartingFrom}");
+                Debug.WriteLine($"Travelling To: {firstResult.Flight.ArrivingIn}");
+                Debug.WriteLine($"Flight Price: {firstResult.Flight.Price}");
+                Debug.WriteLine($"Hotel Id: {firstResult.Hotel.Id}");
+                Debug.WriteLine($"Hotel Name: {firstResult.Hotel.Name}");
+                Debug.WriteLine($"Hotel Price: {firstResult.Hotel.TotalPrice}");
+            }
         }
     }
 }

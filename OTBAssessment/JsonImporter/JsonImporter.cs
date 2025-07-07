@@ -1,8 +1,6 @@
 ﻿using Newtonsoft.Json;
-using Newtonsoft.Json.Linq;
-using OTBAssessment.Objects;
 
-namespace OTBAssessment.JsonImporter
+namespace OTBAssessment
 {
     class JsonImporter
     {

@@ -1,16 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace OTBAssessment.Objects
+﻿namespace OTBAssessment
 {
     class FlightHotelPair
     {
         private Flight flight { get; set; }
         private Hotel hotel { get; set; }
-        private int price { get; set; }
+        private int totalPrice { get; set; }
 
         public Hotel Hotel { get { return hotel; } set {
                 if(flight != null) VerifyAirportAndDate(value, flight);
@@ -24,11 +18,11 @@ namespace OTBAssessment.Objects
                 if (hotel != null) UpdatePrice();
             }
         }
-        public int Price { get { return price; } }
+        public int TotalPrice { get { return totalPrice; } }
 
         private void UpdatePrice()
         {
-            price = flight.Price + (hotel.PricePerNight * hotel.Nights);
+            totalPrice = flight.Price + hotel.TotalPrice;
         }
         private void VerifyAirportAndDate(Hotel hotel, Flight flight)
         {
